@@ -121,7 +121,7 @@ const projectTranslations = {
 };
 
 function getLang() {
-  return localStorage.getItem("site-lang") || "en";
+  return localStorage.getItem("site-lang") || "zh";
 }
 
 function setLang(lang) {

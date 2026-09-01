@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zhang Kaizhi - Software Engineer</title>
+  <title>张凯治 - 软件开发工程师</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
 </head>
@@ -12,27 +12,26 @@
     <div class="nav-container">
       <a href="index.html" class="nav-logo">ZKZ</a>
       <div class="nav-links">
-        <a href="index.html" class="active" data-i18n="nav.home">Home</a>
-        <a href="projects.html" data-i18n="nav.projects">Projects</a>
-        <a href="#about" data-i18n="nav.about">About</a>
-        <a href="#contact" data-i18n="nav.contact">Contact</a>
-        <button class="lang-btn" onclick="toggleLang()" data-i18n="nav.lang">中文</button>
+        <a href="index.html" class="active" data-i18n="nav.home">首页</a>
+        <a href="projects.html" data-i18n="nav.projects">项目</a>
+        <a href="#about" data-i18n="nav.about">关于</a>
+        <a href="#contact" data-i18n="nav.contact">联系</a>
+        <button class="lang-btn" onclick="toggleLang()" data-i18n="nav.lang">EN</button>
       </div>
     </div>
   </nav>
 
   <section class="hero">
     <div class="hero-content">
-      <p class="hero-greeting" data-i18n="hero.greeting">Hello, I'm</p>
-      <h1 class="hero-name" data-i18n="hero.name">Zhang Kaizhi</h1>
-      <p class="hero-title" data-i18n="hero.title">Software Engineer @ Cainiao Network</p>
+      <p class="hero-greeting" data-i18n="hero.greeting">你好，我是</p>
+      <h1 class="hero-name" data-i18n="hero.name">张凯治</h1>
+      <p class="hero-title" data-i18n="hero.title">菜鸟网络 · 软件开发工程师</p>
       <p class="hero-desc" data-i18n="hero.desc">
-        Building AI-powered logistics systems. Focused on cross-border supply chain,
-        intelligent quality control, and Agent-based automation.
+        专注于 AI 驱动的物流系统建设，负责菜鸟跨境物流异常协同、AI 质控 Agent、关务接入与智能稽查类项目。
       </p>
       <div class="hero-actions">
-        <a href="projects.html" class="btn btn-primary" data-i18n="hero.btn1">View Projects</a>
-        <a href="#contact" class="btn btn-outline" data-i18n="hero.btn2">Get in Touch</a>
+        <a href="projects.html" class="btn btn-primary" data-i18n="hero.btn1">查看项目</a>
+        <a href="#contact" class="btn btn-outline" data-i18n="hero.btn2">联系我</a>
       </div>
     </div>
     <div class="hero-visual">
@@ -62,38 +61,33 @@
 
   <section class="section" id="about">
     <div class="container">
-      <h2 class="section-title" data-i18n="about.title">About Me</h2>
+      <h2 class="section-title" data-i18n="about.title">关于我</h2>
       <div class="about-grid">
         <div class="about-card">
           <div class="about-icon">&#128187;</div>
-          <h3 data-i18n="about.card1.title">Backend Development</h3>
+          <h3 data-i18n="about.card1.title">后端开发</h3>
           <p data-i18n="about.card1.desc">
-            Java / Spring Boot 3.x / Pandora Boot, building high-throughput distributed systems
-            for cross-border logistics at Cainiao (Alibaba Group).
+            Java / Spring Boot 3.x / Pandora Boot，在菜鸟（阿里巴巴集团）构建跨境物流高吞吐分布式系统。
           </p>
         </div>
         <div class="about-card">
           <div class="about-icon">&#129302;</div>
-          <h3 data-i18n="about.card2.title">AI Agent Development</h3>
+          <h3 data-i18n="about.card2.title">AI Agent 开发</h3>
           <p data-i18n="about.card2.desc">
-            Designing and implementing LLM-powered agents with Spring AI,
-            featuring ReAct reasoning, tool calling, RAG retrieval,
-            and structured output for quality control automation.
+            基于 Spring AI 设计和实现 LLM 驱动的智能 Agent，涵盖 ReAct 推理、Tool Calling、RAG 检索增强和结构化输出，应用于质控自动化。
           </p>
         </div>
         <div class="about-card">
           <div class="about-icon">&#128202;</div>
-          <h3 data-i18n="about.card3.title">Data Engineering</h3>
+          <h3 data-i18n="about.card3.title">数据工程</h3>
           <p data-i18n="about.card3.desc">
-            MaxCompute/ODPS for large-scale data processing, OpenSearch for
-            full-text and vector search, building data pipelines that power
-            intelligent decision-making.
+            MaxCompute/ODPS 大规模数据处理，OpenSearch 全文检索与向量搜索，构建数据管道支撑智能决策。
           </p>
         </div>
       </div>
 
       <div class="tech-stack">
-        <h3 class="stack-title" data-i18n="about.stack">Tech Stack</h3>
+        <h3 class="stack-title" data-i18n="about.stack">技术栈</h3>
         <div class="stack-tags">
           <span class="tag">Java 21</span>
           <span class="tag">Spring Boot 3.x</span>
@@ -114,7 +108,7 @@
 
   <section class="section section-alt" id="contact">
     <div class="container">
-      <h2 class="section-title" data-i18n="contact.title">Contact</h2>
+      <h2 class="section-title" data-i18n="contact.title">联系方式</h2>
       <div class="contact-links">
         <a href="https://github.com/zkzll" target="_blank" class="contact-card">
           <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -130,7 +124,7 @@
 
   <footer class="footer">
     <div class="container">
-      <p data-i18n="footer.text">&copy; 2026 Zhang Kaizhi. Built with passion.</p>
+      <p data-i18n="footer.text">&copy; 2026 张凯治。用心构建。</p>
     </div>
   </footer>
 
