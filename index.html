@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,26 +12,27 @@
     <div class="nav-container">
       <a href="index.html" class="nav-logo">ZKZ</a>
       <div class="nav-links">
-        <a href="index.html" class="active">Home</a>
-        <a href="projects.html">Projects</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+        <a href="index.html" class="active" data-i18n="nav.home">Home</a>
+        <a href="projects.html" data-i18n="nav.projects">Projects</a>
+        <a href="#about" data-i18n="nav.about">About</a>
+        <a href="#contact" data-i18n="nav.contact">Contact</a>
+        <button class="lang-btn" onclick="toggleLang()" data-i18n="nav.lang">中文</button>
       </div>
     </div>
   </nav>
 
   <section class="hero">
     <div class="hero-content">
-      <p class="hero-greeting">Hello, I'm</p>
-      <h1 class="hero-name">Zhang Kaizhi</h1>
-      <p class="hero-title">Software Engineer @ Cainiao Network</p>
-      <p class="hero-desc">
+      <p class="hero-greeting" data-i18n="hero.greeting">Hello, I'm</p>
+      <h1 class="hero-name" data-i18n="hero.name">Zhang Kaizhi</h1>
+      <p class="hero-title" data-i18n="hero.title">Software Engineer @ Cainiao Network</p>
+      <p class="hero-desc" data-i18n="hero.desc">
         Building AI-powered logistics systems. Focused on cross-border supply chain,
         intelligent quality control, and Agent-based automation.
       </p>
       <div class="hero-actions">
-        <a href="projects.html" class="btn btn-primary">View Projects</a>
-        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+        <a href="projects.html" class="btn btn-primary" data-i18n="hero.btn1">View Projects</a>
+        <a href="#contact" class="btn btn-outline" data-i18n="hero.btn2">Get in Touch</a>
       </div>
     </div>
     <div class="hero-visual">
@@ -40,7 +41,7 @@
           <span class="dot red"></span>
           <span class="dot yellow"></span>
           <span class="dot green"></span>
-          <span class="code-filename">engineer.java</span>
+          <span class="code-filename" data-i18n="hero.codefile">engineer.java</span>
         </div>
         <pre class="code-body"><code><span class="keyword">public class</span> <span class="class-name">Engineer</span> {
   <span class="keyword">private</span> String name = <span class="string">"Zhang Kaizhi"</span>;
@@ -61,20 +62,20 @@
 
   <section class="section" id="about">
     <div class="container">
-      <h2 class="section-title">About Me</h2>
+      <h2 class="section-title" data-i18n="about.title">About Me</h2>
       <div class="about-grid">
         <div class="about-card">
           <div class="about-icon">&#128187;</div>
-          <h3>Backend Development</h3>
-          <p>
+          <h3 data-i18n="about.card1.title">Backend Development</h3>
+          <p data-i18n="about.card1.desc">
             Java / Spring Boot 3.x / Pandora Boot, building high-throughput distributed systems
             for cross-border logistics at Cainiao (Alibaba Group).
           </p>
         </div>
         <div class="about-card">
           <div class="about-icon">&#129302;</div>
-          <h3>AI Agent Development</h3>
-          <p>
+          <h3 data-i18n="about.card2.title">AI Agent Development</h3>
+          <p data-i18n="about.card2.desc">
             Designing and implementing LLM-powered agents with Spring AI,
             featuring ReAct reasoning, tool calling, RAG retrieval,
             and structured output for quality control automation.
@@ -82,8 +83,8 @@
         </div>
         <div class="about-card">
           <div class="about-icon">&#128202;</div>
-          <h3>Data Engineering</h3>
-          <p>
+          <h3 data-i18n="about.card3.title">Data Engineering</h3>
+          <p data-i18n="about.card3.desc">
             MaxCompute/ODPS for large-scale data processing, OpenSearch for
             full-text and vector search, building data pipelines that power
             intelligent decision-making.
@@ -92,7 +93,7 @@
       </div>
 
       <div class="tech-stack">
-        <h3 class="stack-title">Tech Stack</h3>
+        <h3 class="stack-title" data-i18n="about.stack">Tech Stack</h3>
         <div class="stack-tags">
           <span class="tag">Java 21</span>
           <span class="tag">Spring Boot 3.x</span>
@@ -113,9 +114,9 @@
 
   <section class="section section-alt" id="contact">
     <div class="container">
-      <h2 class="section-title">Contact</h2>
+      <h2 class="section-title" data-i18n="contact.title">Contact</h2>
       <div class="contact-links">
-        <a href="https://github.com/zkz" target="_blank" class="contact-card">
+        <a href="https://github.com/zkzll" target="_blank" class="contact-card">
           <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
           <span>GitHub</span>
         </a>
@@ -129,8 +130,10 @@
 
   <footer class="footer">
     <div class="container">
-      <p>&copy; 2026 Zhang Kaizhi. Built with passion.</p>
+      <p data-i18n="footer.text">&copy; 2026 Zhang Kaizhi. Built with passion.</p>
     </div>
   </footer>
+
+  <script src="i18n.js"></script>
 </body>
 </html>

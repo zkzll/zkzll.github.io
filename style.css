@@ -47,6 +47,13 @@ body {
   font-weight: 500; transition: color 0.2s;
 }
 .nav-links a:hover, .nav-links a.active { color: var(--text); }
+.nav-links { align-items: center; }
+.lang-btn {
+  background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+  padding: 4px 12px; border-radius: 6px; font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; font-family: inherit;
+}
+.lang-btn:hover { border-color: var(--primary); color: var(--primary); }
 
 /* Hero */
 .hero {
