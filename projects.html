@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects - Zhang Kaizhi</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">ZKZ</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="projects.html" class="active">Projects</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="page-header">
+    <div class="container">
+      <h1 class="page-title">Projects</h1>
+      <p class="page-desc">Selected works in AI, logistics, and data engineering.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="project-list">
+
+        <!-- Project 1: AI QC Agent -->
+        <div class="project-card">
+          <div class="project-badge">Featured</div>
+          <h2 class="project-title">Cross-Border Logistics AI Quality Control Agent</h2>
+          <p class="project-meta">2025 - Present &middot; Cainiao Network</p>
+          <p class="project-desc">
+            An LLM-powered autonomous agent for quality control in cross-border logistics.
+            The agent automatically inspects 100K+ daily tickets using ReAct reasoning,
+            tool calling, and RAG-based knowledge retrieval, reducing manual QC workload by 80%
+            and improving standard consistency from 75% to 95%.
+          </p>
+          <div class="project-tech">
+            <span class="tag">Spring AI</span>
+            <span class="tag">ReAct Agent</span>
+            <span class="tag">RAG</span>
+            <span class="tag">OpenSearch</span>
+            <span class="tag">SchedulerX2</span>
+            <span class="tag">ODPS</span>
+          </div>
+          <div class="project-highlights">
+            <h4>Key Achievements</h4>
+            <ul>
+              <li>QC coverage rate: 15% → 92%</li>
+              <li>Intervention time: 48h → 2h</li>
+              <li>RAG-assisted suggestion adoption rate: 79%</li>
+              <li>Annual cost saving: ~1.2M RMB</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Project 2: OpenSearch -->
+        <div class="project-card">
+          <h2 class="project-title">OpenSearch Ticket Search Service</h2>
+          <p class="project-meta">2025 - Present &middot; Cainiao Network</p>
+          <p class="project-desc">
+            Full-text and vector search service for logistics ticket data.
+            Built on Alibaba OpenSearch with multi-condition filtering, time-range queries,
+            and hybrid search capabilities. Supports both keyword-based and semantic search
+            for the quality control platform.
+          </p>
+          <div class="project-tech">
+            <span class="tag">OpenSearch</span>
+            <span class="tag">Vector Search</span>
+            <span class="tag">Java</span>
+            <span class="tag">Spring Boot 3.x</span>
+          </div>
+        </div>
+
+        <!-- Project 3: Operation Audit -->
+        <div class="project-card">
+          <h2 class="project-title">Operation Audit Log System</h2>
+          <p class="project-meta">2025 &middot; Cainiao Network</p>
+          <p class="project-desc">
+            AOP-based operation audit logging system with Spring AOP @Around advice.
+            Captures traceId, operator, service/method info, and request snapshots
+            for full traceability and compliance tracking across the quality control platform.
+          </p>
+          <div class="project-tech">
+            <span class="tag">Spring AOP</span>
+            <span class="tag">MySQL</span>
+            <span class="tag">Annotation-driven</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Zhang Kaizhi. Built with passion.</p>
+    </div>
+  </footer>
+</body>
+</html>

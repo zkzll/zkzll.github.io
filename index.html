@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zhang Kaizhi - Software Engineer</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">ZKZ</a>
+      <div class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <p class="hero-greeting">Hello, I'm</p>
+      <h1 class="hero-name">Zhang Kaizhi</h1>
+      <p class="hero-title">Software Engineer @ Cainiao Network</p>
+      <p class="hero-desc">
+        Building AI-powered logistics systems. Focused on cross-border supply chain,
+        intelligent quality control, and Agent-based automation.
+      </p>
+      <div class="hero-actions">
+        <a href="projects.html" class="btn btn-primary">View Projects</a>
+        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="code-block">
+        <div class="code-header">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+          <span class="code-filename">engineer.java</span>
+        </div>
+        <pre class="code-body"><code><span class="keyword">public class</span> <span class="class-name">Engineer</span> {
+  <span class="keyword">private</span> String name = <span class="string">"Zhang Kaizhi"</span>;
+  <span class="keyword">private</span> String role = <span class="string">"Backend Dev"</span>;
+  <span class="keyword">private</span> String[] stack = {
+    <span class="string">"Java"</span>, <span class="string">"Spring Boot"</span>,
+    <span class="string">"Spring AI"</span>, <span class="string">"OpenSearch"</span>,
+    <span class="string">"ODPS"</span>, <span class="string">"MySQL"</span>
+  };
+
+  <span class="keyword">public</span> String <span class="method">build</span>() {
+    <span class="keyword">return</span> <span class="string">"AI-powered solutions"</span>;
+  }
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="container">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="about-icon">&#128187;</div>
+          <h3>Backend Development</h3>
+          <p>
+            Java / Spring Boot 3.x / Pandora Boot, building high-throughput distributed systems
+            for cross-border logistics at Cainiao (Alibaba Group).
+          </p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon">&#129302;</div>
+          <h3>AI Agent Development</h3>
+          <p>
+            Designing and implementing LLM-powered agents with Spring AI,
+            featuring ReAct reasoning, tool calling, RAG retrieval,
+            and structured output for quality control automation.
+          </p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon">&#128202;</div>
+          <h3>Data Engineering</h3>
+          <p>
+            MaxCompute/ODPS for large-scale data processing, OpenSearch for
+            full-text and vector search, building data pipelines that power
+            intelligent decision-making.
+          </p>
+        </div>
+      </div>
+
+      <div class="tech-stack">
+        <h3 class="stack-title">Tech Stack</h3>
+        <div class="stack-tags">
+          <span class="tag">Java 21</span>
+          <span class="tag">Spring Boot 3.x</span>
+          <span class="tag">Spring AI</span>
+          <span class="tag">Pandora Boot</span>
+          <span class="tag">HSF / RPC</span>
+          <span class="tag">MySQL</span>
+          <span class="tag">OpenSearch</span>
+          <span class="tag">MaxCompute / ODPS</span>
+          <span class="tag">SchedulerX2</span>
+          <span class="tag">Docker</span>
+          <span class="tag">Git</span>
+          <span class="tag">Linux</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="contact">
+    <div class="container">
+      <h2 class="section-title">Contact</h2>
+      <div class="contact-links">
+        <a href="https://github.com/zkz" target="_blank" class="contact-card">
+          <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>GitHub</span>
+        </a>
+        <a href="mailto:zkz01782702@cainiao.com" class="contact-card">
+          <svg class="contact-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          <span>Email</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Zhang Kaizhi. Built with passion.</p>
+    </div>
+  </footer>
+</body>
+</html>
