@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AI 工单智查 — 调用链路图</title>
+<style>
+  :root{
+    --bg:#080c18;--card:rgba(15,23,42,.88);--glass:rgba(255,255,255,.03);
+    --blue:#60a5fa;--cyan:#22d3ee;--purple:#a78bfa;--green:#34d399;
+    --amber:#fbbf24;--rose:#fb7185;--orange:#fb923c;--indigo:#818cf8;
+    --text:#e2e8f0;--muted:#64748b;--line:#1e293b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--text);font-family:'Inter','PingFang SC','SF Mono',sans-serif;min-height:100vh}
+  body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.02) 1px,transparent 0);background-size:32px 32px;pointer-events:none}
+  .wrap{max-width:1280px;margin:0 auto;padding:36px 20px 60px;position:relative;z-index:1}
+
+  /* Title */
+  .title{text-align:center;margin-bottom:40px;animation:fd .7s ease-out}
+  .title h1{font-size:34px;font-weight:800;letter-spacing:2px;background:linear-gradient(135deg,#60a5fa,#a78bfa,#f59e0b);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .title .sub{color:var(--muted);font-size:12px;margin-top:6px;letter-spacing:4px;text-transform:uppercase}
+  .title .badges{margin-top:12px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+  .title .badges span{font-size:10px;padding:3px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.08);color:var(--muted);background:rgba(255,255,255,.03)}
+
+  /* Section */
+  .sec{margin-bottom:36px;animation:fu .7s ease-out both}
+  .sec:nth-child(2){animation-delay:.08s}.sec:nth-child(3){animation-delay:.16s}
+  .sec:nth-child(4){animation-delay:.24s}.sec:nth-child(5){animation-delay:.32s}
+  .sec:nth-child(6){animation-delay:.40s}.sec:nth-child(7){animation-delay:.48s}
+  .sec-hdr{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-left:14px;position:relative}
+  .sec-hdr::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:4px;height:22px;border-radius:2px}
+  .sec-hdr.s1::before{background:var(--rose)}.sec-hdr.s2::before{background:var(--blue)}
+  .sec-hdr.s3::before{background:var(--purple)}.sec-hdr.s4::before{background:var(--cyan)}
+  .sec-hdr.s5::before{background:var(--amber)}.sec-hdr.s6::before{background:var(--green)}
+  .sec-hdr.s7::before{background:var(--orange)}
+  .sec-hdr .num{font-size:11px;letter-spacing:2px;padding:3px 10px;border-radius:4px;font-weight:700}
+  .s1 .num{background:rgba(251,113,133,.12);color:var(--rose)}
+  .s2 .num{background:rgba(96,165,250,.12);color:var(--blue)}
+  .s3 .num{background:rgba(167,139,250,.12);color:var(--purple)}
+  .s4 .num{background:rgba(34,211,238,.12);color:var(--cyan)}
+  .s5 .num{background:rgba(251,191,36,.12);color:var(--amber)}
+  .s6 .num{background:rgba(52,211,153,.12);color:var(--green)}
+  .s7 .num{background:rgba(251,146,60,.12);color:var(--orange)}
+  .sec-hdr .st{font-size:17px;font-weight:700}
+  .sec-hdr .sd{color:var(--muted);font-size:11px;margin-left:auto}
+
+  /* Sequence flow */
+  .flow{display:flex;flex-direction:column;gap:0}
+  .step{display:flex;align-items:stretch;gap:0;position:relative}
+  .step-idx{width:52px;flex-shrink:0;display:flex;flex-direction:column;align-items:center}
+  .step-idx .dot{width:14px;height:14px;border-radius:50%;border:2px solid;position:relative;z-index:2}
+  .step-idx .line{flex:1;width:2px;background:var(--line);margin:2px 0}
+  .step:last-child .step-idx .line{display:none}
+  .dot.d-rose{border-color:var(--rose);background:rgba(251,113,133,.2)}
+  .dot.d-blue{border-color:var(--blue);background:rgba(96,165,250,.2)}
+  .dot.d-purple{border-color:var(--purple);background:rgba(167,139,250,.2)}
+  .dot.d-cyan{border-color:var(--cyan);background:rgba(34,211,238,.2)}
+  .dot.d-amber{border-color:var(--amber);background:rgba(251,191,36,.2)}
+  .dot.d-green{border-color:var(--green);background:rgba(52,211,153,.2)}
+  .dot.d-orange{border-color:var(--orange);background:rgba(251,146,60,.2)}
+  .dot.d-indigo{border-color:var(--indigo);background:rgba(129,140,248,.2)}
+  .step-body{flex:1;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:14px 18px;margin-bottom:10px;backdrop-filter:blur(8px);transition:all .3s}
+  .step-body:hover{border-color:rgba(255,255,255,.14);transform:translateX(4px)}
+  .step-body .sh{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+  .step-body .sn{font-size:14px;font-weight:700}
+  .step-body .cls{font-size:11px;font-family:'SF Mono','JetBrains Mono',monospace;padding:2px 8px;border-radius:4px;background:rgba(255,255,255,.05);color:var(--cyan);border:1px solid rgba(34,211,238,.12)}
+  .step-body .mod{font-size:9px;padding:2px 6px;border-radius:3px;background:rgba(96,165,250,.1);color:var(--blue);letter-spacing:.5px}
+  .step-body .desc{font-size:11px;color:var(--muted);line-height:1.7}
+  .step-body .desc code{font-family:'SF Mono','JetBrains Mono',monospace;color:var(--amber);font-size:10px;background:rgba(251,191,36,.08);padding:1px 4px;border-radius:3px}
+  .step-body .chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+  .chip{font-size:9px;padding:2px 7px;border-radius:4px;white-space:nowrap}
+  .chip.c-blue{background:rgba(96,165,250,.1);color:var(--blue)}
+  .chip.c-cyan{background:rgba(34,211,238,.1);color:var(--cyan)}
+  .chip.c-purple{background:rgba(167,139,250,.1);color:var(--purple)}
+  .chip.c-amber{background:rgba(251,191,36,.1);color:var(--amber)}
+  .chip.c-green{background:rgba(52,211,153,.1);color:var(--green)}
+  .chip.c-rose{background:rgba(251,113,133,.1);color:var(--rose)}
+  .chip.c-orange{background:rgba(251,146,60,.1);color:var(--orange)}
+  .chip.c-indigo{background:rgba(129,140,248,.1);color:var(--indigo)}
+
+  /* Branch / sub-flow */
+  .branch{margin-left:62px;border-left:2px dashed rgba(255,255,255,.08);padding-left:16px;margin-top:4px;margin-bottom:10px}
+  .branch .bstep{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:10px;padding:10px 14px;margin-bottom:8px;transition:all .3s}
+  .branch .bstep:hover{border-color:rgba(255,255,255,.1)}
+  .branch .bstep .sh{display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap}
+  .branch .bstep .sn{font-size:13px;font-weight:600}
+  .branch .bstep .desc{font-size:10px;color:var(--muted);line-height:1.6}
+  .branch .bstep .desc code{font-family:'SF Mono',monospace;color:var(--amber);font-size:9px;background:rgba(251,191,36,.08);padding:1px 3px;border-radius:2px}
+
+  /* Tool grid */
+  .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-left:62px;margin-bottom:10px}
+  @media(max-width:800px){.tool-grid{grid-template-columns:repeat(2,1fr)}}
+  .tool-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:8px;padding:10px 12px;transition:all .2s}
+  .tool-card:hover{border-color:rgba(167,139,250,.2);transform:translateY(-2px)}
+  .tool-card .tn{font-size:11px;font-weight:700;font-family:'SF Mono',monospace;color:var(--cyan);margin-bottom:3px;word-break:break-all}
+  .tool-card .td{font-size:10px;color:var(--muted);line-height:1.5}
+  .tool-card .tc{margin-top:4px;display:flex;gap:3px;flex-wrap:wrap}
+
+  /* Arrow connector */
+  .arrow{text-align:center;padding:6px 0;margin-left:52px;color:var(--muted);font-size:11px;letter-spacing:2px;opacity:.5}
+  .arrow span{display:inline-block;animation:pulse 2s ease-in-out infinite}
+
+  /* Monitor section */
+  .monitor-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:800px){.monitor-row{grid-template-columns:1fr}}
+  .mon-card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:16px 18px;transition:all .3s}
+  .mon-card:hover{border-color:rgba(251,146,60,.2)}
+  .mon-card .mh{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+  .mon-card .mh .mi{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+  .mon-card .mt{font-size:14px;font-weight:700}
+  .mon-card .md{font-size:11px;color:var(--muted);line-height:1.7}
+  .mon-card .md code{font-family:'SF Mono',monospace;color:var(--amber);font-size:10px}
+  .alert-list{margin-top:8px;display:flex;flex-direction:column;gap:4px}
+  .alert-item{font-size:10px;padding:4px 8px;border-radius:6px;display:flex;align-items:center;gap:6px}
+  .alert-item .ai{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+  .legend{display:flex;justify-content:center;gap:16px;margin-top:40px;flex-wrap:wrap}
+  .legend span{font-size:10px;color:var(--muted);display:flex;align-items:center;gap:5px}
+  .legend span::before{content:'';width:8px;height:8px;border-radius:50%}
+  .legend .l1::before{background:var(--rose)}.legend .l2::before{background:var(--blue)}
+  .legend .l3::before{background:var(--purple)}.legend .l4::before{background:var(--cyan)}
+  .legend .l5::before{background:var(--amber)}.legend .l6::before{background:var(--green)}
+  .legend .l7::before{background:var(--orange)}
+
+  @keyframes fu{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fd{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- Title -->
+<div class="title">
+  <h1>AI 工单智查 · 调用链路</h1>
+  <div class="sub">CALL CHAIN — SKILL-MANAGED MODE (ai-ticket-check)</div>
+  <div class="badges">
+    <span>SKILL Self-Managed</span><span>ReactAgent ReAct Loop</span>
+    <span>17 MCP Tools</span><span>5-Step Pipeline</span>
+    <span>WatchDog Auto-Rerun</span>
+  </div>
+</div>
+
+<!-- ========== Section 1: 触发入口 ========== -->
+<div class="sec">
+  <div class="sec-hdr s1"><span class="num">01</span><span class="st">触发入口</span><span class="sd">多渠道 → Facade 接入</span></div>
+  <div class="flow">
+    <div class="step">
+      <div class="step-idx"><div class="dot d-rose"></div><div class="line"></div></div>
+      <div class="step-body">
+        <div class="sh">
+          <span class="sn">外部调用方</span>
+          <span class="mod">触发源</span>
+        </div>
+        <div class="desc">
+          工单系统 / 定时任务 / 钉钉消息 → 通过 <code>HSF</code> 或 <code>REST API</code> 发起智查请求
+        </div>
+        <div class="chips">
+          <span class="chip c-rose">HSF RPC</span>
+          <span class="chip c-rose">REST API</span>
+          <span class="chip c-rose">DingTalk</span>
+          <span class="chip c-rose">SchedulerX</span>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-idx"><div class="dot d-rose"></div><div class="line"></div></div>
+      <div class="step-body">
+        <div class="sh">
+          <span class="sn">QcTaskRemoteServiceImpl</span>
+          <span class="cls">.startTicketCheck(req)</span>
+          <span class="mod">cbaa-facade</span>
+        </div>
+        <div class="desc">
+          HSF Provider 接收 <code>TicketCheckStartRequest</code>，包含 ticketId、bizCode、ticketType、description 等参数，委派至核心服务
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><span>▼</span></div>
+
+<!-- ========== Section 2: 任务创建与启动 ========== -->
+<div class="sec">
+  <div class="sec-hdr s2"><span class="num">02</span><span class="st">任务创建 & 启动</span><span class="sd">TicketCheckQcTaskService → QcTaskEngine</span></div>
+  <div class="flow">
+    <div class="step">
+      <div class="step-idx"><div class="dot d-blue"></div><div class="line"></div></div>
+      <div class="step-body">
+        <div class="sh">
+          <span class="sn">TicketCheckQcTaskService</span>
+          <span class="cls">.createAndStart(req)</span>
+          <span class="mod">cbaa-knowledge</span>
+        </div>
+        <div class="desc">
+          ① 从 Diamond 解析 <code>taskType</code> 配置<br>
+          ② 幂等校验：<code>uk = taskScene + "#" + ticketId</code><br>
+          ③ 调用 Engine 创建主任务
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-idx"><div class="dot d-blue"></div><div class="line"></div></div>
+      <div class="step-body">
+        <div class="sh">
+          <span class="sn">QcTaskEngine</span>
+          <span class="cls">.createTask(request)</span>
+          <span class="mod">cbaa-knowledge</span>
+        </div>
+        <div class="desc">
+          <code>@Transactional</code> 写入 <code>MainTaskDO</code>（状态 PENDING）<br>
+          返回 <code>mainTaskId</code>，此时无预建子任务（由 Agent 运行时动态创建）
+        </div>
+        <div class="chips">
+          <span class="chip c-blue">DB: main_task INSERT</span>
+          <span class="chip c-blue">status=PENDING</span>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-idx"><div class="dot d-blue"></div><div class="line"></div></div>
+      <div class="step-body">
+        <div class="sh">
+          <span class="sn">QcTaskEngine</span>
+          <span class="cls">.startTask(mainTaskId, operator)</span>
+          <span class="mod">cbaa-knowledge</span>
+        </div>
+        <div class="desc">
+          CAS 主任务 PENDING → RUNNING，调用 <code>dispatchReady()</code><br>
+          SKILL-managed 模式下 handlerName=skill-managed，跳过 MetaQ 分发
+        </div>
+        <div class="chips">
+          <span class="chip c-blue">CAS: PENDING→RUNNING</span>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-idx"><div class="dot d-blue"></div><div class="line"></div></div>
+      <div class="step-body">
+        <div class="sh">
+          <span class="sn">异步调度</span>
+          <span class="cls">CompletableFuture.runAsync(invokeSkill, skillExecutor)</span>
+        </div>
+        <div class="desc">
+          弹性线程池：<code>core=4, max=16, queue=64, CallerRunsPolicy</code><br>
+          主线程立即返回响应，Agent 在后台异步执行
+        </div>
+        <div class="chips">
+          <span class="chip c-amber">异步执行</span>
+          <span class="chip c-amber">弹性线程池</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><span>▼</span></div>
+
+<!-- ========== Section 3: Agent 推理引擎 ========== -->
+<div class="sec">
+  <div class="sec-hdr s3"><span class="num">03</span><span class="st">Agent 推理引擎</span><span class="sd">ReactAgent ReAct 循环 — 思考 → 调用 → 观察</span></div>
+  <div class="flow">
+    <div class="step">
+      <div class="step-idx"><div class="dot d-purple"></div><div class="line"></div></div>
+      <div class="step-body">
+        <div class="sh">
+          <span class="sn">TicketCheckSkillsAgent</span>
+          <span class="cls">.streamChat(prompt, config, chatModel)</span>
+          <span class="mod">cbaa-knowledge</span>
+        </div>
+        <div class="desc">
+          懒加载构建 <code>ReactAgent</code>（Spring AI Alibaba Graph）<br>
+          加载 <code>SkillsAgentHook</code>（qc/ 技能目录）+ <code>SkillsToolFactory.buildTicketCheckTools()</code>（17 个工具）<br>
+          <code>RunnableConfig.threadId = mainTaskId</code> 关联流式日志
+        </div>
+        <div class="chips">
+          <span class="chip c-purple">ReactAgent</span>
+          <span class="chip c-purple">SkillsAgentHook</span>
+          <span class="chip c-purple">17 Tools</span>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-idx"><div class="dot d-purple"></div><div class="line"></div></div>
+      <div class="step-body">
+        <div class="sh">
+          <span class="sn">Prompt 构造</span>
+          <span class="mod">系统提示词</span>
+        </div>
+        <div class="desc">
+          指令 LLM 按 5 步流水线执行：<br>
+          ① <code>qctask_get_context</code> 自检状态<br>
+          ② 依次创建 5 个子任务（<code>qctask_create_sub_task</code>）<br>
+          ③ 每步：<code>start → 业务工具 → finish</code><br>
+          ④ 最终调用 <code>qctask_finish_main_task</code> 完结
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-idx"><div class="dot d-purple"></div><div class="line"></div></div>
+      <div class="step-body">
+        <div class="sh">
+          <span class="sn">ReAct 循环</span>
+          <span class="cls">agent.stream(message, config)</span>
+          <span class="mod">Flux&lt;NodeOutput&gt;</span>
+        </div>
+        <div class="desc">
+          <strong style="color:var(--purple)">MODEL 节点：</strong>LLM 流式输出 token → <code>QcStreamingLogAppender</code> → SSE 推送 + DB 写入<br>
+          <strong style="color:var(--cyan)">TOOL 节点：</strong>LLM 发起工具调用 → 提取 <code>ToolCallSnapshot</code>（toolName + args + response）→ Markdown 格式化 → SSE + DB
+        </div>
+        <div class="chips">
+          <span class="chip c-purple">MODEL: 流式推理</span>
+          <span class="chip c-cyan">TOOL: 工具调用</span>
+          <span class="chip c-green">SSE 实时推送</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><span>▼</span></div>
+
+<!-- ========== Section 4: 5-Step Pipeline (Tool Calls) ========== -->
+<div class="sec">
+  <div class="sec-hdr s4"><span class="num">04</span><span class="st">5 步智查流水线</span><span class="sd">LLM 编排 → MCP 工具调用 → IDEAs AI Studio Flow API</span></div>
+
+  <div class="tool-grid">
+    <!-- Step 1 -->
+    <div class="tool-card">
+      <div class="tn">step1-data-enrich</div>
+      <div class="td">工单数据补全<br>拉取物流轨迹、渠道信息</div>
+      <div class="tc">
+        <span class="chip c-cyan">qctask_create_sub_task</span>
+        <span class="chip c-cyan">qctask_start_sub_task</span>
+        <span class="chip c-amber">qctask_enrich_ticket</span>
+        <span class="chip c-green">qctask_finish_sub_task</span>
+      </div>
+    </div>
+    <!-- Step 2 -->
+    <div class="tool-card">
+      <div class="tn">step2-attribution</div>
+      <div class="td">归因推理 + 评估<br>AI 推断异常根因</div>
+      <div class="tc">
+        <span class="chip c-amber">qctask_attribution_infer</span>
+        <span class="chip c-amber">qctask_evaluate_attribution</span>
+        <span class="chip c-rose">PASS / RETRY / FAIL</span>
+      </div>
+    </div>
+    <!-- Step 3 -->
+    <div class="tool-card">
+      <div class="tn">step3-collaborate</div>
+      <div class="td">协同任务处理<br>跨系统联动</div>
+      <div class="tc">
+        <span class="chip c-amber">qctask_collaborate_task</span>
+        <span class="chip c-indigo">Ideas Flow API</span>
+      </div>
+    </div>
+    <!-- Step 4 -->
+    <div class="tool-card">
+      <div class="tn">step4-speech</div>
+      <div class="td">话术生成 + 评估<br>生成回复内容并质检</div>
+      <div class="tc">
+        <span class="chip c-amber">qctask_generate_speech</span>
+        <span class="chip c-amber">qctask_evaluate_speech</span>
+      </div>
+    </div>
+    <!-- Step 5 -->
+    <div class="tool-card">
+      <div class="tn">step5-process</div>
+      <div class="td">工单处理执行<br>最终操作落地</div>
+      <div class="tc">
+        <span class="chip c-amber">qctask_process_ticket</span>
+        <span class="chip c-green">qctask_finish_main_task</span>
+      </div>
+    </div>
+    <!-- Human -->
+    <div class="tool-card" style="border-color:rgba(251,113,133,.15)">
+      <div class="tn" style="color:var(--rose)">human-intervention</div>
+      <div class="td">人工介入（可选）<br>置信度不足时挂起等待</div>
+      <div class="tc">
+        <span class="chip c-rose">qctask_suspend_sub_task</span>
+        <span class="chip c-rose">MQ 回调恢复</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="branch">
+    <div class="bstep">
+      <div class="sh">
+        <span class="sn" style="color:var(--amber)">IdeasApiClient</span>
+        <span class="cls" style="font-size:10px">.callFlowApi(apiUrl, sessionId, questionPayload, label, mainTaskId)</span>
+      </div>
+      <div class="desc">
+        POST 请求 → IDEAs AI Studio Flow API<br>
+        Body: <code>{empId, sessionId, question, stream:false}</code> + <code>X-AK</code> 鉴权 Header<br>
+        最多 3 次瞬态 I/O 重试 · <code>parseOuterResponse()</code> → <code>extractContent()</code> 解析结果
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><span>▼</span></div>
+
+<!-- ========== Section 5: 17 MCP Tools ========== -->
+<div class="sec">
+  <div class="sec-hdr s5"><span class="num">05</span><span class="st">MCP 工具注册表</span><span class="sd">QcTaskToolRegistry — 17 个工具</span></div>
+  <div class="tool-grid">
+    <div class="tool-card" style="border-color:rgba(96,165,250,.12)">
+      <div class="tn" style="color:var(--blue)">qctask_get_context</div>
+      <div class="td">读取主任务上下文 & 子任务状态</div>
+    </div>
+    <div class="tool-card" style="border-color:rgba(96,165,250,.12)">
+      <div class="tn" style="color:var(--blue)">qctask_create_sub_task</div>
+      <div class="td">动态创建子任务 (PENDING)</div>
+    </div>
+    <div class="tool-card" style="border-color:rgba(96,165,250,.12)">
+      <div class="tn" style="color:var(--blue)">qctask_start_sub_task</div>
+      <div class="td">CAS PENDING→RUNNING + 依赖校验</div>
+    </div>
+    <div class="tool-card" style="border-color:rgba(52,211,153,.12)">
+      <div class="tn" style="color:var(--green)">qctask_finish_sub_task</div>
+      <div class="td">CAS RUNNING→SUCCESS + 输出合并</div>
+    </div>
+    <div class="tool-card" style="border-color:rgba(251,113,133,.12)">
+      <div class="tn" style="color:var(--rose)">qctask_fail_sub_task</div>
+      <div class="td">RUNNING→FAILED</div>
+    </div>
+    <div class="tool-card" style="border-color:rgba(251,113,133,.12)">
+      <div class="tn" style="color:var(--rose)">qctask_suspend_sub_task</div>
+      <div class="td">RUNNING→HUMAN_INTERVENING</div>
+    </div>
+    <div class="tool-card" style="border-color:rgba(52,211,153,.12)">
+      <div class="tn" style="color:var(--green)">qctask_finish_main_task</div>
+      <div class="td">聚合子任务状态 → 主任务终结</div>
+    </div>
+    <div class="tool-card" style="border-color:rgba(34,211,238,.12)">
+      <div class="tn" style="color:var(--cyan)">qctask_enrich_ticket</div>
+      <div class="td">工单数据增强 (step1)</div>
+    </div>
+    <div class="tool-card" style="border-color:rgba(34,211,238,.12)">
+      <div class="tn" style="color:var(--cyan)">qctask_attribution_infer</div>
+      <div class="td">归因推理 (step2)</div>
+    </div>
+    <div class="tool-card" style="border-color:rgba(34,211,238,.12)">
+      <div class="tn" style="color:var(--cyan)">qctask_evaluate_attribution</div>
+      <div class="td">归因评估 (step2 eval)</div>
+    </div>
+    <div class="tool-card" style="border-color:rgba(34,211,238,.12)">
+      <div class="tn" style="color:var(--cyan)">qctask_collaborate_task</div>
+      <div class="td">协同处理 (step3)</div>
+    </div>
+    <div class="tool-card" style="border-color:rgba(34,211,238,.12)">
+      <div class="tn" style="color:var(--cyan)">qctask_generate_speech</div>
+      <div class="td">话术生成 (step4)</div>
+    </div>
+    <div class="tool-card" style="border-color:rgba(34,211,238,.12)">
+      <div class="tn" style="color:var(--cyan)">qctask_evaluate_speech</div>
+      <div class="td">话术评估 (step4 eval)</div>
+    </div>
+    <div class="tool-card" style="border-color:rgba(34,211,238,.12)">
+      <div class="tn" style="color:var(--cyan)">qctask_process_ticket</div>
+      <div class="td">工单处理 (step5)</div>
+    </div>
+    <div class="tool-card" style="border-color:rgba(251,191,36,.12)">
+      <div class="tn" style="color:var(--amber)">qctask_log_event</div>
+      <div class="td">写入 TaskLogDO 审计日志</div>
+    </div>
+    <div class="tool-card" style="border-color:rgba(251,191,36,.12)">
+      <div class="tn" style="color:var(--amber)">qctask_show_result</div>
+      <div class="td">SSE 推送结果卡片</div>
+    </div>
+    <div class="tool-card" style="border-color:rgba(251,146,60,.12)">
+      <div class="tn" style="color:var(--orange)">qctask_notify_dingtalk</div>
+      <div class="td">钉钉告警通知</div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><span>▼</span></div>
+
+<!-- ========== Section 6: 结果处理 & 异常重试 ========== -->
+<div class="sec">
+  <div class="sec-hdr s6"><span class="num">06</span><span class="st">结果处理 & 异常重试</span><span class="sd">streamChat 完成后的收尾逻辑</span></div>
+  <div class="flow">
+    <div class="step">
+      <div class="step-idx"><div class="dot d-green"></div><div class="line"></div></div>
+      <div class="step-body">
+        <div class="sh">
+          <span class="sn">正常完结</span>
+          <span class="mod">blockLast() 返回</span>
+        </div>
+        <div class="desc">
+          检查是否有挂起子任务（<code>suspend</code>）→ 若有则关闭 SSE 等待 MQ 回调恢复<br>
+          无挂起 → 发布汇总卡片（<code>ticketSummaryHelper.publishSummary()</code>）→ 关闭 SSE 连接
+        </div>
+        <div class="chips">
+          <span class="chip c-green">Summary Card</span>
+          <span class="chip c-green">SSE Close</span>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-idx"><div class="dot d-rose"></div><div class="line"></div></div>
+      <div class="step-body">
+        <div class="sh">
+          <span class="sn">异常重试</span>
+          <span class="cls">retry up to 3x</span>
+          <span class="mod">可恢复错误</span>
+        </div>
+        <div class="desc">
+          可重试错误：<code>429 RateLimit</code> / <code>InvalidParameter</code> / <code>No ToolCallback</code><br>
+          最多重试 3 次 → 最终失败调用 <code>forceFailMainTask()</code><br>
+          → <code>qcTaskEngine.failMainTaskWithSubs()</code> + 钉钉告警
+        </div>
+        <div class="chips">
+          <span class="chip c-rose">429 限流</span>
+          <span class="chip c-rose">参数异常</span>
+          <span class="chip c-rose">工具缺失</span>
+          <span class="chip c-orange">max 3 retries</span>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-idx"><div class="dot d-indigo"></div><div class="line"></div></div>
+      <div class="step-body">
+        <div class="sh">
+          <span class="sn">人工介入恢复</span>
+          <span class="cls">.resumeFromMq(mainTaskId, nodeType, trigger)</span>
+        </div>
+        <div class="desc">
+          MetaQ 消息 <code>QcTaskResumeMsgListener</code> 接收人工输入<br>
+          → <code>submitHumanIntervention()</code> 合并参数 → 重新调用 <code>invokeSkill(humanQuestion)</code> 恢复 Agent 执行
+        </div>
+        <div class="chips">
+          <span class="chip c-indigo">MQ Resume</span>
+          <span class="chip c-indigo">Human-in-Loop</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow"><span>▼</span></div>
+
+<!-- ========== Section 7: 监控 & 告警 ========== -->
+<div class="sec">
+  <div class="sec-hdr s7"><span class="num">07</span><span class="st">监控 & 告警（并行）</span><span class="sd">QcTaskWatchDog + DingTalkAlertTemplate</span></div>
+  <div class="monitor-row">
+    <div class="mon-card">
+      <div class="mh">
+        <div class="mi" style="background:rgba(251,146,60,.12);color:var(--orange)">🐕</div>
+        <span class="mt">QcTaskWatchDog</span>
+        <span class="chip c-orange">每 5 分钟</span>
+      </div>
+      <div class="md">
+        <strong style="color:var(--orange)">scanStaleTasks()</strong><br>
+        查询 RUNNING 状态且 <code>updated_time > 20min</code> 的任务<br>
+        · <code>rerunCount < 3</code> → CAS 回收 → <code>forceRerunFromRunning()</code> → 重新 <code>invokeSkill()</code><br>
+        · <code>rerunCount >= 3</code> → <code>failMainTaskWithSubs()</code> + 钉钉告警<br><br>
+        <strong style="color:var(--rose)">alarmStaleAccumulation()</strong><br>
+        连续 2 个采样周期积压 ≥ 5 个僵死任务 → 钉钉告警
+      </div>
+    </div>
+    <div class="mon-card">
+      <div class="mh">
+        <div class="mi" style="background:rgba(251,113,133,.12);color:var(--rose)">🔔</div>
+        <span class="mt">DingTalkAlertTemplate</span>
+        <span class="chip c-rose">6 种告警</span>
+      </div>
+      <div class="alert-list">
+        <div class="alert-item" style="background:rgba(251,113,133,.06)">
+          <div class="ai" style="background:var(--rose)"></div>
+          <span style="color:var(--rose);font-weight:600">ticketProcessFailed</span>
+          <span style="color:var(--muted)">— 工单处理失败</span>
+        </div>
+        <div class="alert-item" style="background:rgba(251,113,133,.06)">
+          <div class="ai" style="background:var(--rose)"></div>
+          <span style="color:var(--rose);font-weight:600">ticketProcessExceptionFailed</span>
+          <span style="color:var(--muted)">— SKILL 异常终止</span>
+        </div>
+        <div class="alert-item" style="background:rgba(251,191,36,.06)">
+          <div class="ai" style="background:var(--amber)"></div>
+          <span style="color:var(--amber);font-weight:600">humanIntervening</span>
+          <span style="color:var(--muted)">— 需人工介入</span>
+        </div>
+        <div class="alert-item" style="background:rgba(251,146,60,.06)">
+          <div class="ai" style="background:var(--orange)"></div>
+          <span style="color:var(--orange);font-weight:600">staleAccumulation</span>
+          <span style="color:var(--muted)">— 僵死任务积压</span>
+        </div>
+        <div class="alert-item" style="background:rgba(251,113,133,.06)">
+          <div class="ai" style="background:var(--rose)"></div>
+          <span style="color:var(--rose);font-weight:600">exhaustedRerunFailed</span>
+          <span style="color:var(--muted)">— 重试次数耗尽</span>
+        </div>
+        <div class="alert-item" style="background:rgba(52,211,153,.06)">
+          <div class="ai" style="background:var(--green)"></div>
+          <span style="color:var(--green);font-weight:600">notifyMarkdown</span>
+          <span style="color:var(--muted)">— Webhook + HMAC-SHA256</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <span class="l1">触发入口</span>
+  <span class="l2">任务管理</span>
+  <span class="l3">Agent 推理</span>
+  <span class="l4">工具调用</span>
+  <span class="l5">MCP 工具</span>
+  <span class="l6">结果处理</span>
+  <span class="l7">监控告警</span>
+</div>
+
+<div style="text-align:center;margin-top:20px;color:var(--muted);font-size:10px;letter-spacing:3px">
+  cross-border-ai-agents · SKILL Self-Managed Mode · 5-Step Pipeline · 17 MCP Tools
+</div>
+
+</div>
+</body>
+</html>
