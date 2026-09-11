@@ -14,7 +14,6 @@
       <div class="nav-links">
         <a href="index.html" data-i18n="nav.home">首页</a>
         <a href="projects.html" class="active" data-i18n="nav.projects">项目</a>
-        <a href="resume.html" data-i18n="nav.resume">简历</a>
         <a href="index.html#about" data-i18n="nav.about">关于</a>
         <a href="index.html#contact" data-i18n="nav.contact">联系</a>
         <button class="lang-btn" onclick="toggleLang()" data-i18n="nav.lang">EN</button>
@@ -115,6 +114,55 @@
             <span class="tag">Spring AOP</span>
             <span class="tag">MySQL</span>
             <span class="tag">Annotation-driven</span>
+          </div>
+        </div>
+
+        <!-- Project 4: 菜鸟速递 -->
+        <div class="project-card">
+          <h2 class="project-title" data-i18n="p4.title">菜鸟速递市场技术平台</h2>
+          <p class="project-meta" data-i18n="p4.meta">2023 - 2025 &middot; 菜鸟网络</p>
+          <p class="project-desc" data-i18n="p4.desc">
+            菜鸟速递售中、售后相关系统的开发与维护，包括合同管理、客户管理、打单系统（EDI/MCS）、电子面单、产品中心等。主要负责对接外部商家及平台（中铁、中广电、微信、抖音等），最多商家单日下单量 10W+，参与需求评审、方案设计、开发、测试、上线、维护全流程。
+          </p>
+          <div class="project-tech">
+            <span class="tag">Spring Boot</span>
+            <span class="tag">RocketMQ</span>
+            <span class="tag">Redis</span>
+            <span class="tag">Caffeine</span>
+            <span class="tag">MySQL</span>
+          </div>
+          <div class="project-highlights">
+            <h4 data-i18n="p4.h4">核心工作</h4>
+            <ul>
+              <li data-i18n="p4.li1">大润发商超一单多令牌场景优化：同步预分拣 + 异步批量下单提高 RT，MQ 实现下单失败重试</li>
+              <li data-i18n="p4.li2">1688 取件码乱序治理：Redis 分布式锁 + MQ 延迟推送，解决异步取件码先于下单到达</li>
+              <li data-i18n="p4.li3">产品中心架构设计：策略 + 工厂模式实现多产品业务结合，具备良好扩展性</li>
+              <li data-i18n="p4.li4">多级缓存方案：Caffeine 本地缓存 + Redis 分布式缓存提升系统吞吐</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Project 5: 长江商业银行 -->
+        <div class="project-card">
+          <h2 class="project-title" data-i18n="p5.title">江苏长江商业银行核心系统</h2>
+          <p class="project-meta" data-i18n="p5.meta">2021 - 2023 &middot; 神州信息</p>
+          <p class="project-desc" data-i18n="p5.desc">
+            基于 Spring Cloud + Dubbo 的银行核心系统，主要包括存款、贷款等模块化系统及互联网金融系统。对接三方金融平台，实现转账、查询、还款、数据落地等功能，以及定期产品和特色业务的研发。
+          </p>
+          <div class="project-tech">
+            <span class="tag">Spring Cloud</span>
+            <span class="tag">Dubbo</span>
+            <span class="tag">TCC</span>
+            <span class="tag">CompletableFuture</span>
+            <span class="tag">Oracle</span>
+          </div>
+          <div class="project-highlights">
+            <h4 data-i18n="p5.h4">核心工作</h4>
+            <ul>
+              <li data-i18n="p5.li1">活期转定期分布式事务一致性：采用 TCC 方案保证账务数据一致性</li>
+              <li data-i18n="p5.li2">批处理数据文件落地优化：CompletableFuture 异步处理三方贷款信息，极大提升批处理效率</li>
+              <li data-i18n="p5.li3">保函注销记账一致性：可靠消息最终一致性方案（MQ + 定时轮询），保证交易最终成功</li>
+            </ul>
           </div>
         </div>
 

@@ -14,7 +14,6 @@
       <div class="nav-links">
         <a href="index.html" class="active" data-i18n="nav.home">首页</a>
         <a href="projects.html" data-i18n="nav.projects">项目</a>
-        <a href="resume.html" data-i18n="nav.resume">简历</a>
         <a href="#about" data-i18n="nav.about">关于</a>
         <a href="#contact" data-i18n="nav.contact">联系</a>
         <button class="lang-btn" onclick="toggleLang()" data-i18n="nav.lang">EN</button>
@@ -93,9 +92,14 @@
           <span class="tag">Java 21</span>
           <span class="tag">Spring Boot 3.x</span>
           <span class="tag">Spring AI</span>
+          <span class="tag">Spring Cloud</span>
           <span class="tag">Pandora Boot</span>
+          <span class="tag">Dubbo</span>
           <span class="tag">HSF / RPC</span>
           <span class="tag">MySQL</span>
+          <span class="tag">Oracle</span>
+          <span class="tag">Redis</span>
+          <span class="tag">RocketMQ</span>
           <span class="tag">OpenSearch</span>
           <span class="tag">MaxCompute / ODPS</span>
           <span class="tag">SchedulerX2</span>
@@ -107,7 +111,66 @@
     </div>
   </section>
 
-  <section class="section section-alt" id="contact">
+  <!-- 教育经历 -->
+  <section class="section section-alt" id="education">
+    <div class="container">
+      <h2 class="section-title" data-i18n="edu.title">教育经历</h2>
+      <div class="edu-card" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px 28px;transition:border-color .2s">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">
+          <div>
+            <div style="font-size:18px;font-weight:700" data-i18n="edu.school">西北工业大学明德学院</div>
+            <div style="font-size:14px;color:var(--text-muted);margin-top:4px" data-i18n="edu.major">本科 &middot; 电子商务（计算机系）</div>
+          </div>
+          <div style="font-size:13px;color:var(--accent);font-weight:600" data-i18n="edu.period">2017 - 2021</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 工作经历 -->
+  <section class="section" id="experience">
+    <div class="container">
+      <h2 class="section-title" data-i18n="exp.title">工作经历</h2>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px 28px;transition:border-color .2s">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">
+            <div>
+              <div style="font-size:18px;font-weight:700" data-i18n="exp1.company">菜鸟网络（直管）</div>
+              <div style="font-size:14px;color:var(--text-muted);margin-top:4px" data-i18n="exp1.role">Java 开发工程师 &mdash; 跨境物流 AI 系统建设</div>
+            </div>
+            <div style="font-size:13px;color:var(--accent);font-weight:600" data-i18n="exp1.period">2023.08 - 至今</div>
+          </div>
+          <div style="margin-top:12px;font-size:13px;color:var(--text-muted);line-height:1.7" data-i18n="exp1.desc">
+            负责菜鸟跨境物流 AI 工单智查平台、质控 Agent、关务接入与智能稽查类项目。基于 Spring AI + Multi-Agent 架构，实现工单全链路自动化处理。
+          </div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px 28px;transition:border-color .2s">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">
+            <div>
+              <div style="font-size:18px;font-weight:700" data-i18n="exp2.company">神州信息</div>
+              <div style="font-size:14px;color:var(--text-muted);margin-top:4px" data-i18n="exp2.role">Java 开发工程师 &mdash; 银行核心系统开发</div>
+            </div>
+            <div style="font-size:13px;color:var(--accent);font-weight:600" data-i18n="exp2.period">2021.07 - 2023.08</div>
+          </div>
+          <div style="margin-top:12px;font-size:13px;color:var(--text-muted);line-height:1.7" data-i18n="exp2.desc">
+            参与江苏长江商业银行核心系统开发，基于 Spring Cloud + Dubbo 构建存款、贷款及互联网金融模块，对接三方金融平台实现转账、还款、数据落地等功能。
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 自我评价 -->
+  <section class="section section-alt" id="evaluation">
+    <div class="container" style="max-width:720px;text-align:center">
+      <h2 class="section-title" data-i18n="eval.title">自我评价</h2>
+      <p style="font-size:15px;color:var(--text-muted);line-height:1.8" data-i18n="eval.desc">
+        四年 Java 一线开发经验，具有良好的面向对象编程思维和设计模式素养。在菜鸟网络主导多个 AI Agent 项目从 0 到 1 落地，擅长将 AI 能力与业务系统深度融合。对待工作尽职尽责，有较强的抗压能力和团队协作精神。
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
     <div class="container">
       <h2 class="section-title" data-i18n="contact.title">联系方式</h2>
       <div class="contact-links">
